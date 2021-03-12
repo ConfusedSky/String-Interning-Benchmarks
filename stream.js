@@ -31,6 +31,18 @@ readerStream.on("data", function (chunk) {
         } else {
           results.push(line);
         }
+      } else if (process.argv[2] === "number") {
+        if (line === "This is a test") {
+          results.push(0);
+        } else if (line === "This was a test") {
+          results.push(1);
+        } else if (line === "This will be a test") {
+          results.push(2);
+        } else if (line === "This is an extra test") {
+          results.push(3);
+        } else {
+          results.push(-1);
+        }
       } else {
         results.push(line);
       }
@@ -49,7 +61,7 @@ readerStream.on("end", function () {
   displayMemory();
   console.timeEnd("Read File");
 
-  benchmark(results);
+  benchmark(results, process.argv[2] === "number" ? 0 : undefined);
 });
 
 readerStream.on("error", function (err) {

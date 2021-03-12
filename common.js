@@ -11,9 +11,9 @@ const getCount = (array, str) => {
   return array.reduce((v, c) => v + (c === str ? 1 : 0), 0);
 };
 
-const benchmark = (array) => {
+const benchmark = (array, value = "This is a test") => {
   console.time("O(N)");
-  console.log(getCount(array, "This is a test"));
+  console.log(getCount(array, value));
   console.timeEnd("O(N)");
 
   console.time("O(N log(N))");
