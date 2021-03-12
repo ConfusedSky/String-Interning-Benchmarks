@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { benchmark, displayMemory } = require("./common");
+const { benchmark, displayMemory, mapValue } = require("./common");
 let data = "";
 let results = [];
 
@@ -19,33 +19,7 @@ readerStream.on("data", function (chunk) {
 
     while (end !== -1) {
       const line = data.substring(start, end);
-      if (process.argv[2] === "intern") {
-        if (line === "This is a test") {
-          results.push("This is a test");
-        } else if (line === "This was a test") {
-          results.push("This was a test");
-        } else if (line === "This will be a test") {
-          results.push("This will be a test");
-        } else if (line === "This is an extra test") {
-          results.push("This is an extra test");
-        } else {
-          results.push(line);
-        }
-      } else if (process.argv[2] === "number") {
-        if (line === "This is a test") {
-          results.push(0);
-        } else if (line === "This was a test") {
-          results.push(1);
-        } else if (line === "This will be a test") {
-          results.push(2);
-        } else if (line === "This is an extra test") {
-          results.push(3);
-        } else {
-          results.push(-1);
-        }
-      } else {
-        results.push(line);
-      }
+      results.push(mapValue(line, process.argv[2]));
 
       start = end + 1;
       end = data.indexOf("\n", start);
