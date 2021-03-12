@@ -1,11 +1,13 @@
 const fs = require("fs");
-const { benchmark, displayMemory, mapValue } = require("./common");
+const { benchmark, displayMemory, mapValue, getCount } = require("./common");
 let data = "";
 let results = [];
 
+const [node, f, type, input] = process.argv;
+
 console.time("Read File");
 // Create a readable stream
-const readerStream = fs.createReadStream("tmp.txt");
+const readerStream = fs.createReadStream(input || "tmp.txt");
 
 // Set the encoding to be utf8.
 readerStream.setEncoding("UTF8");
@@ -19,7 +21,7 @@ readerStream.on("data", function (chunk) {
 
     while (end !== -1) {
       const line = data.substring(start, end);
-      results.push(mapValue(line, process.argv[2]));
+      results.push(mapValue(line, type));
 
       start = end + 1;
       end = data.indexOf("\n", start);
@@ -35,7 +37,15 @@ readerStream.on("end", function () {
   displayMemory();
   console.timeEnd("Read File");
 
-  benchmark(results, process.argv[2] === "number" ? 0 : undefined);
+  const value = type === "number" ? 0 : undefined;
+
+  benchmark(results, value);
+
+  if (input === "tmp2.txt") {
+    console.time("O(N^2)");
+    results.map((v) => getCount(results, v));
+    console.timeEnd("O(N^2)");
+  }
 });
 
 readerStream.on("error", function (err) {

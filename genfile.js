@@ -6,7 +6,7 @@ const randomInt = (max) => {
 };
 
 const writeLine = async (line) => {
-  await promises.appendFile("tmp.txt", line + "\n");
+  await promises.appendFile("tmp2.txt", line + "\n");
 };
 
 const strings = [
@@ -17,7 +17,7 @@ const strings = [
 ];
 
 const main = async () => {
-  for (let i = 0; i < 1e7; i++) {
+  for (let i = 0; i < 1e5; i++) {
     const s = randomInt(strings.length);
     await writeLine(strings[s]);
   }
