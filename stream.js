@@ -11,6 +11,7 @@ const fs = require("fs");
 let data = "";
 let results = [];
 
+console.time("Read File");
 // Create a readable stream
 const readerStream = fs.createReadStream("tmp.txt");
 
@@ -54,6 +55,15 @@ readerStream.on("end", function () {
   results.push(data);
   console.log(results.length);
   displayMemory();
+  console.timeEnd("Read File");
+
+  console.time("O(N)");
+  console.log(results.filter((v) => v === "This is a test").length);
+  console.timeEnd("O(N)");
+
+  console.time("O(N log(N))");
+  results.sort();
+  console.timeEnd("O(N log(N))");
 });
 
 readerStream.on("error", function (err) {
