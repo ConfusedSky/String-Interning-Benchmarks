@@ -1,13 +1,5 @@
-const displayMemory = () => {
-  const used = process.memoryUsage();
-  for (let key in used) {
-    console.log(
-      `${key} ${Math.round((used[key] / 1024 / 1024) * 100) / 100} MB`
-    );
-  }
-};
-
 const fs = require("fs");
+const { benchmark, displayMemory } = require("./common");
 let data = "";
 let results = [];
 
@@ -51,23 +43,13 @@ readerStream.on("data", function (chunk) {
   }
 });
 
-const getCount = (array, str) => {
-  return array.reduce((v, c) => v + (c === str ? 1 : 0), 0);
-};
-
 readerStream.on("end", function () {
   results.push(data);
   console.log(results.length);
   displayMemory();
   console.timeEnd("Read File");
 
-  console.time("O(N)");
-  console.log(getCount(results, "This is a test"));
-  console.timeEnd("O(N)");
-
-  console.time("O(N log(N))");
-  results.sort();
-  console.timeEnd("O(N log(N))");
+  benchmark(results);
 });
 
 readerStream.on("error", function (err) {
