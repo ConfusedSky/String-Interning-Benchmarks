@@ -51,6 +51,10 @@ readerStream.on("data", function (chunk) {
   }
 });
 
+const getCount = (array, str) => {
+  return array.reduce((v, c) => v + (c === str ? 1 : 0), 0);
+};
+
 readerStream.on("end", function () {
   results.push(data);
   console.log(results.length);
@@ -58,7 +62,7 @@ readerStream.on("end", function () {
   console.timeEnd("Read File");
 
   console.time("O(N)");
-  console.log(results.filter((v) => v === "This is a test").length);
+  console.log(getCount(results, "This is a test"));
   console.timeEnd("O(N)");
 
   console.time("O(N log(N))");
