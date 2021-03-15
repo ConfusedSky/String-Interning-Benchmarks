@@ -36,6 +36,18 @@ const mapValue = (value, type) => {
     } else {
       return -1;
     }
+  } else if (type === "float") {
+    if (value === "This is a test") {
+      return 0.1;
+    } else if (value === "This was a test") {
+      return 0.2;
+    } else if (value === "This will be a test") {
+      return 0.3;
+    } else if (value === "This is an extra test") {
+      return 0.4;
+    } else {
+      return -1;
+    }
   } else {
     return value;
   }

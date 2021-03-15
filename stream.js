@@ -37,7 +37,7 @@ readerStream.on("end", function () {
   displayMemory();
   console.timeEnd("Read File");
 
-  const value = type === "number" ? 0 : undefined;
+  const value = type === "number" ? 0 : type === "float" ? 0.1 : undefined;
 
   benchmark(results, value);
 
